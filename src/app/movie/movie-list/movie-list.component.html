@@ -1,6 +1,10 @@
 <app-movie-form></app-movie-form>
-<ul>
-  <li *ngFor="let movie of movies$ | async">
-    {{ movie?.title }} ({{ movie?.year }})
-  </li>
-</ul>
+<div class="movies" *ngIf="movies$ | async as movies">
+  <h4 *ngIf="movies?.length" class="title">Movies:</h4>
+  <ul>
+    <li title="Modify" *ngFor="let movie of movies" (click)="updateMovie(movie)">
+      <span>{{ movie?.title }} ({{ movie?.year }})</span>
+      <button title="Delete" type="button" class="delete-button" (click)="deleteMovie($event, movie)">+</button>
+    </li>
+  </ul>
+</div>

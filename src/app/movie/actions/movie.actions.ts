@@ -3,6 +3,7 @@ import { Update } from '@ngrx/entity';
 import { Movie } from '../models/movie.model';
 
 export enum MovieActionTypes {
+  SelectMovie = '[Movie] Select Movie',
   LoadMovies = '[Movie] Load Movies',
   LoadMoviesSuccess = '[Movie] Load Movies Success',
   AddMovie = '[Movie] Add Movie',
@@ -11,10 +12,18 @@ export enum MovieActionTypes {
   AddMovies = '[Movie] Add Movies',
   UpsertMovies = '[Movie] Upsert Movies',
   UpdateMovie = '[Movie] Update Movie',
+  UpdateMovieSuccess = '[Movie] Update Movie Success',
   UpdateMovies = '[Movie] Update Movies',
   DeleteMovie = '[Movie] Delete Movie',
+  DeleteMovieSuccess = '[Movie] Delete Movie Success',
   DeleteMovies = '[Movie] Delete Movies',
   ClearMovies = '[Movie] Clear Movies'
+}
+
+export class SelectMovie implements Action {
+  readonly type = MovieActionTypes.SelectMovie;
+
+  constructor(public payload: { movie: Movie }) {}
 }
 
 export class LoadMovies implements Action {
@@ -62,6 +71,12 @@ export class UpsertMovies implements Action {
 export class UpdateMovie implements Action {
   readonly type = MovieActionTypes.UpdateMovie;
 
+  constructor(public payload: { id: string, movie: Partial<Movie> }) {}
+}
+
+export class UpdateMovieSuccess implements Action {
+  readonly type = MovieActionTypes.UpdateMovieSuccess;
+
   constructor(public payload: { movie: Update<Movie> }) {}
 }
 
@@ -77,6 +92,12 @@ export class DeleteMovie implements Action {
   constructor(public payload: { id: string }) {}
 }
 
+export class DeleteMovieSuccess implements Action {
+  readonly type = MovieActionTypes.DeleteMovieSuccess;
+
+  constructor(public payload: { id: string }) {}
+}
+
 export class DeleteMovies implements Action {
   readonly type = MovieActionTypes.DeleteMovies;
 
@@ -88,7 +109,8 @@ export class ClearMovies implements Action {
 }
 
 export type MovieActions =
- LoadMovies
+ SelectMovie
+ | LoadMovies
  | LoadMoviesSuccess
  | AddMovie
  | AddMovieSuccess
@@ -96,7 +118,9 @@ export type MovieActions =
  | AddMovies
  | UpsertMovies
  | UpdateMovie
+ | UpdateMovieSuccess
  | UpdateMovies
  | DeleteMovie
+ | DeleteMovieSuccess
  | DeleteMovies
  | ClearMovies;

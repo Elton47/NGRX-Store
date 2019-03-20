@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Movie } from '../models/movie.model';
 import * as fromStore from '../reducers/movie.reducer';
-import { LoadMovies } from '../actions/movie.actions';
+import { LoadMovies, DeleteMovie, SelectMovie } from '../actions/movie.actions';
 
 @Component({
   selector: 'app-movie-list',
@@ -21,4 +21,14 @@ export class MovieListComponent implements OnInit {
     this.store.dispatch(new LoadMovies());
   }
 
+  public updateMovie(movie: Movie): void {
+    this.store.dispatch(new SelectMovie({ movie }));
+  }
+
+  public deleteMovie(event: MouseEvent, movie: Movie): void {
+    event.stopPropagation();
+    if (confirm(`Delete "${movie.title} (${movie.year})" movie?`)) {
+      this.store.dispatch(new DeleteMovie({ id: movie.id }));
+    }
+  }
 }

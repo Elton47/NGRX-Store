@@ -1,19 +1,25 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Movie } from '../models/movie.model';
 import { MovieActions, MovieActionTypes } from '../actions/movie.actions';
-import { createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-export interface MovieState extends EntityState<Movie> { }
+export interface MovieState extends EntityState<Movie> {
+  selectedMovie: Movie;
+}
 
 export const adapter: EntityAdapter<Movie> = createEntityAdapter<Movie>();
 
-export const initialState: MovieState = adapter.getInitialState();
+export const initialState: MovieState = adapter.getInitialState({ selectedMovie: null });
 
 export function reducer(
   state = initialState,
   action: MovieActions
 ): MovieState {
   switch (action.type) {
+    case MovieActionTypes.SelectMovie: {
+      return { ...state, selectedMovie: action.payload.movie }
+    }
+
     case MovieActionTypes.AddMovieSuccess: {
       return adapter.addOne(action.payload.movie, state);
     }
@@ -30,7 +36,7 @@ export function reducer(
       return adapter.upsertMany(action.payload.movies, state);
     }
 
-    case MovieActionTypes.UpdateMovie: {
+    case MovieActionTypes.UpdateMovieSuccess: {
       return adapter.updateOne(action.payload.movie, state);
     }
 
@@ -38,7 +44,7 @@ export function reducer(
       return adapter.updateMany(action.payload.movies, state);
     }
 
-    case MovieActionTypes.DeleteMovie: {
+    case MovieActionTypes.DeleteMovieSuccess: {
       return adapter.removeOne(action.payload.id, state);
     }
 
@@ -60,9 +66,16 @@ export function reducer(
   }
 }
 
+export const selectMovieState = createFeatureSelector<MovieState>('movie');
+
 export const {
   selectIds,
   selectEntities,
   selectAll,
   selectTotal,
-} = adapter.getSelectors(createFeatureSelector<MovieState>('movie'));
+} = adapter.getSelectors(selectMovieState);
+
+export const selectSelectedMovie = createSelector(
+  selectMovieState,
+  (state: MovieState) => state.selectedMovie
+);
