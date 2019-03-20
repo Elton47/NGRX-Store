@@ -1,0 +1,6 @@
+<app-movie-form></app-movie-form>
+<ul>
+  <li *ngFor="let movie of movies$ | async">
+    {{ movie?.title }} ({{ movie?.year }})
+  </li>
+</ul>

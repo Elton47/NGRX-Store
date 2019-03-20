@@ -1,0 +1,5 @@
+<form [formGroup]="movieFormGroup">
+  <input type="text" placeholder="Title" formControlName="title">
+  <input type="number" placeholder="Year" formControlName="year">
+  <button type="button" (click)="save()">Save</button>
+</form>
