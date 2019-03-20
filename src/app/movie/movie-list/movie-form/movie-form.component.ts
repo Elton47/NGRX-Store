@@ -16,6 +16,7 @@ export class MovieFormComponent implements OnInit, OnDestroy {
   private actionsSubjectSubscription: Subscription;
   movieFormGroup: FormGroup = new FormGroup({
     title: new FormControl(null, Validators.required),
+    description: new FormControl(null),
     year: new FormControl(null, Validators.required)
   });
   selectedMovie: Movie | null;
@@ -32,6 +33,7 @@ export class MovieFormComponent implements OnInit, OnDestroy {
     this.actionsSubjectSubscription = this.actionsSubject.subscribe((action: Action) => {
       switch (action.type) {
         case MovieActionTypes.AddMovieSuccess: this.movieFormGroup.reset(); return;
+        case MovieActionTypes.UpdateMovieSuccess: this.setSelectedMovie(null); return;
         case MovieActionTypes.SelectMovie: this.setSelectedMovie((action as SelectMovie).payload.movie); return;
       }
     });

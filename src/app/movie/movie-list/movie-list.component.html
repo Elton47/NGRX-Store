@@ -5,6 +5,7 @@
     <li title="Modify" *ngFor="let movie of movies" (click)="updateMovie(movie)">
       <span>{{ movie?.title }} ({{ movie?.year }})</span>
       <button title="Delete" type="button" class="delete-button" (click)="deleteMovie($event, movie)">+</button>
+      <small class="description" *ngIf="movie?.description">{{ movie?.description }}</small>
     </li>
   </ul>
 </div>
