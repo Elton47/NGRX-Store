@@ -1,16 +1,43 @@
+.title {
+  margin: .5rem .5rem 0 .5rem;
+}
 form {
-  padding: .5rem;
+  padding: 0 .5rem;
   input {
     display: block;
     margin-top: .5rem;
     padding: .5rem 1rem;
+    border: 1px solid #aaa;
+    transition: border-color .25s ease;
+    &:hover, &:focus {
+      border-color: #777;
+    }
   }
   button {
     margin: .5rem 0;
     padding: .5rem 1rem;
     color: white;
     background-color: #5e97f6;
-    border-radius: 2px;
     border: none;
+    transition: background-color .25s ease;
+    cursor: pointer;
+    &:hover, &:focus {
+      background-color: darken(#5e97f6, 5%);
+    }
+    &[disabled], &:disabled {
+      opacity: .75;
+      cursor: not-allowed;
+    }
+    &.cancel-button {
+      margin-left: .5rem;
+      background-color: whitesmoke;
+      color: #333;
+    }
+  }
+  input, button {
+    border-radius: 4px;
+    &:focus {
+      outline: none;
+    }
   }
 }
