@@ -1,3 +1,10 @@
 {
-  "movies": []
+  "movies": [
+    {
+      "title": "Halloween",
+      "description": "It's been 40 years since Laurie Strode survived a vicious attack from crazed killer Michael Myers on Halloween night. Locked up in an institution, Myers manages to escape when his bus transfer goes horribly wrong. Laurie now faces a terrifying showdown when the masked madman returns to Haddonfield, Ill. -- but this time, she's ready for him.",
+      "year": 2018,
+      "id": 1
+    }
+  ]
 }

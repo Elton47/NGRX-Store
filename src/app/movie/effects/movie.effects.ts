@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs/operators';
-import { MovieActions, MovieActionTypes, LoadMoviesSuccess, AddMovie, AddMovieSuccess, DeleteMovie, DeleteMovieSuccess, UpdateMovie, UpdateMovieSuccess } from '../actions/movie.actions';
+import { map, mergeMap, catchError } from 'rxjs/operators';
+import { MovieActions, MovieActionTypes, LoadMoviesSuccess, AddMovie, AddMovieSuccess, DeleteMovie, DeleteMovieSuccess, UpdateMovie, UpdateMovieSuccess, LoadMoviesFailure } from '../actions/movie.actions';
 import { MovieService } from '../movie.service';
 import { Movie } from '../models/movie.model';
+import { of } from 'rxjs';
 
 
 
@@ -15,7 +16,8 @@ export class MovieEffects {
   loadMovies$ = this.actions$.pipe(
     ofType(MovieActionTypes.LoadMovies),
     mergeMap(() => this.movieService.loadMovies().pipe(
-      map((response: Movie[]) => new LoadMoviesSuccess({ movies: response }))
+      map((response: Movie[]) => new LoadMoviesSuccess({ movies: response })),
+      catchError((error: any) => of(new LoadMoviesFailure({ error })))
     ))
   );
 
