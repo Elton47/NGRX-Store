@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EffectsModule } from '@ngrx/effects';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
   imports: [
     BrowserModule,
     HttpClientModule,
+    LoadingBarHttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot([]),
     EffectsModule.forRoot([]),
