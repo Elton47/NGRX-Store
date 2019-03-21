@@ -3,7 +3,7 @@ import { Store, ActionsSubject, Action } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { Movie } from '../models/movie.model';
 import * as fromStore from '../reducers/movie.reducer';
-import { LoadMovies, DeleteMovie, SelectMovie, MovieActionTypes } from '../actions/movie.actions';
+import { LoadMovies, DeleteMovie, SelectMovie, MovieActionTypes, LoadMoviesFailure } from '../actions/movie.actions';
 
 @Component({
   selector: 'app-movie-list',
@@ -13,16 +13,17 @@ import { LoadMovies, DeleteMovie, SelectMovie, MovieActionTypes } from '../actio
 })
 export class MovieListComponent implements OnInit, OnDestroy {
   private actionsSubjectSubscription: Subscription;
+  movieActionTypes = MovieActionTypes;
   movies$: Observable<Movie[]>;
 
   constructor(
     private store: Store<fromStore.MovieState>,
-    private actionsSubject: ActionsSubject
+    public actionsSubject: ActionsSubject
   ) { }
 
   ngOnInit(): void {
     this.movies$ = this.store.select(fromStore.selectAll);
-    this.store.dispatch(new LoadMovies());
+    this.loadMovies();
     this.actionsSubjectSubscription = this.actionsSubject.subscribe((action: Action) => {
       switch (action.type) {
         case MovieActionTypes.DeleteMovieSuccess: this.store.dispatch(new SelectMovie({ movie: null })); return;
@@ -32,6 +33,10 @@ export class MovieListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.actionsSubjectSubscription.unsubscribe();
+  }
+
+  public loadMovies(): void {
+    this.store.dispatch(new LoadMovies());
   }
 
   public updateMovie(movie: Movie): void {

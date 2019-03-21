@@ -1,4 +1,10 @@
 <app-movie-form></app-movie-form>
+<ng-container *ngIf="actionsSubject | async as action">
+  <div *ngIf="action?.type === movieActionTypes.LoadMoviesFailure">
+    <h4>Error: Cannot load movies!</h4>
+    <button type="button" (click)="loadMovies()">Retry</button>
+  </div>
+</ng-container>
 <div class="movies" *ngIf="movies$ | async as movies">
   <h4 *ngIf="movies?.length" class="title">Movies:</h4>
   <ul>

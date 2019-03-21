@@ -3,6 +3,6 @@
   <input type="text" placeholder="Title" formControlName="title">
   <textarea type="text" placeholder="Description" formControlName="description" rows="6"></textarea>
   <input type="number" placeholder="Year" formControlName="year">
-  <button #submitButton type="submit" [disabled]="(!selectedMovie && isExistingMovieName(movies$ | async)) || movieFormGroup?.invalid" (click)="submitButton?.disabled ? null : save()">Save</button>
-  <button *ngIf="selectedMovie" type="button" class="cancel-button" (click)="cancelUpdate()">Cancel</button>
+  <button #submitButton type="submit" [disabled]="(!selectedMovie && isExistingMovieName(movies$ | async)) || movieFormGroup?.pending || movieFormGroup?.invalid" (click)="submitButton?.disabled ? null : save()">Save</button>
+  <button *ngIf="selectedMovie" type="button" class="cancel-button" (click)="reset()">Cancel</button>
 </form>

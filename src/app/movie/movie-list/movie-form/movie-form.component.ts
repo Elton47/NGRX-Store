@@ -32,8 +32,8 @@ export class MovieFormComponent implements OnInit, OnDestroy {
     this.movies$ = this.store.select(fromMovie.selectAll);
     this.actionsSubjectSubscription = this.actionsSubject.subscribe((action: Action) => {
       switch (action.type) {
-        case MovieActionTypes.AddMovieSuccess: this.movieFormGroup.reset(); return;
-        case MovieActionTypes.UpdateMovieSuccess: this.cancelUpdate(); return;
+        case MovieActionTypes.AddMovieSuccess:
+        case MovieActionTypes.UpdateMovieSuccess: this.reset(); return;
         case MovieActionTypes.SelectMovie: this.setSelectedMovie((action as SelectMovie).payload.movie); return;
       }
     });
@@ -51,9 +51,11 @@ export class MovieFormComponent implements OnInit, OnDestroy {
     } else {
       this.movieFormGroup.reset();
     }
+    this.movieFormGroup.updateValueAndValidity();
   }
 
   public save(): void {
+    this.movieFormGroup.markAsPending();
     if (this.selectedMovie) {
       this.store.dispatch(new UpdateMovie({ id: this.selectedMovie.id, movie: this.movieFormGroup.value }));
     } else {
@@ -61,7 +63,7 @@ export class MovieFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  public cancelUpdate(): void {
+  public reset(): void {
     this.store.dispatch(new SelectMovie({ movie: null }));
   }
 
