@@ -64,10 +64,15 @@ export class MovieFormComponent implements OnInit, OnDestroy {
   }
 
   public reset(): void {
-    this.store.dispatch(new SelectMovie({ movie: null }));
+    if (this.selectedMovie) {
+      this.store.dispatch(new SelectMovie({ movie: null }));
+    } else {
+      this.movieFormGroup.reset();
+    }
   }
 
   public isExistingMovieName(movies: Movie[]): boolean {
-    return !!movies.find((movie: Movie) => movie.title === this.movieFormGroup.get('title').value);
+    const titleFormValue: string = this.movieFormGroup.get('title').value;
+    return titleFormValue && !!movies.find((movie: Movie) => movie.title.replace(/\s/g, '').toLowerCase() === titleFormValue.replace(/\s/g, '').toLowerCase());
   }
 }
